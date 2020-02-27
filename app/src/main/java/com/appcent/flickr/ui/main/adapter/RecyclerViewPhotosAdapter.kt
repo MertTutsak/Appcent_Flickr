@@ -80,11 +80,9 @@ class RecyclerViewPhotosAdapter(
     }
 
     fun addList(photos: ArrayList<Photo>?) {
-        val oldPosition = itemCount
         photos?.forEach {
             this.photos.add(it)
         }
-
         notifyDataSetChanged()
     }
 
