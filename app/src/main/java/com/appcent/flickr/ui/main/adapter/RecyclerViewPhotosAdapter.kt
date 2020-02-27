@@ -84,11 +84,8 @@ class RecyclerViewPhotosAdapter(
         photos?.forEach {
             this.photos.add(it)
         }
-        if (oldPosition <= 0) {
-            notifyDataSetChanged()
-        } else {
-            notifyItemRangeInserted(oldPosition, itemCount)
-        }
+
+        notifyDataSetChanged()
     }
 
     override fun getItemId(position: Int): Long {
