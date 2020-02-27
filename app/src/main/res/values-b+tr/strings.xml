@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">appcent-flickr-tr</string>
+
+    <!-- Dialogs -->
+    <string name="dialog_button_okey">HATA!</string>
+    <string name="dialog_error_title">TAMAM</string>
+    <!-- Dialogs -->
+</resources>

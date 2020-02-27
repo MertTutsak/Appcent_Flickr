@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewState"
+            type="com.appcent.flickr.ui.photoviewer.PhotoViewerViewState" />
+
+        <variable
+            name="touchListener"
+            type="android.view.View.OnTouchListener" />
+
+        <variable
+            name="transitionCallback"
+            type="com.squareup.picasso.Callback" />
+
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rlContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#000000"
+        bind:backgroundAlpha="@{viewState.alpha}">
+
+        <ImageView
+            android:id="@+id/imgDraggable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:adjustViewBounds="true"
+            bind:setTouchListener="@{touchListener}"
+            bind:shareName="@{viewState.transitionName}"
+            bind:transitionCallback="@{transitionCallback}"
+            bind:transitionFetchImage="@{viewState.url}" />
+
+    </RelativeLayout>
+
+
+</layout>
