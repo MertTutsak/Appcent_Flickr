@@ -18,34 +18,18 @@
             name="pagingListener"
             type="com.appcent.flickr.ui.common.components.paginglayout.PagingLayout.OnLoadingInterface" />
 
-        <import type="android.view.View"/>
+        <import type="android.view.View" />
 
     </data>
 
-
-    <androidx.core.widget.NestedScrollView
+    <com.appcent.flickr.ui.common.components.paginglayout.PagingLayout
         android:id="@+id/rootMainActivity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fitsSystemWindows="true">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <com.appcent.flickr.ui.common.components.paginglayout.PagingLayout
-                android:id="@+id/plPhotos"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                bind:photosNestedScrollView="@{rootMainActivity}"
-                bind:photos="@{viewModel.photosResponseLiveData.data.photos.photo}"
-                bind:photoClick="@{photoClick}"
-                bind:pagingListener="@{pagingListener}"/>
-
-        </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
+        android:fitsSystemWindows="true"
+        bind:pagingListener="@{pagingListener}"
+        bind:photoClick="@{photoClick}"
+        bind:photos="@{viewModel.photosResponseLiveData.data.photos.photo}" />
 
 </layout>
 

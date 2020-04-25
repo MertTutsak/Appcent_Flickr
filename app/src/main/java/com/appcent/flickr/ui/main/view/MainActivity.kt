@@ -36,6 +36,7 @@ class MainActivity : BaseBottomUpActivity(), PagingLayout.OnLoadingInterface {
 
     override fun bindView() {
         mainViewModel.navigator = this
+        mainActivityDataBinding.lifecycleOwner = this
         this.setNavController(
             android.R.color.transparent,
             true
@@ -44,8 +45,8 @@ class MainActivity : BaseBottomUpActivity(), PagingLayout.OnLoadingInterface {
         initPagingLayout()
         initObservables()
 
-        mainViewModel.getRecent(mainActivityDataBinding.plPhotos.cleanPageIndex().also {
-            mainActivityDataBinding.plPhotos.getAdapter<RecyclerViewPhotosAdapter>()?.clear()
+        mainViewModel.getRecent(mainActivityDataBinding.rootMainActivity.cleanPageIndex().also {
+            mainActivityDataBinding.rootMainActivity.getAdapter<RecyclerViewPhotosAdapter>()?.clear()
         })
     }
 
@@ -53,16 +54,15 @@ class MainActivity : BaseBottomUpActivity(), PagingLayout.OnLoadingInterface {
         mainViewModel.photosResponseLiveData.observeNonNull(this) {
             when (it.status) {
                 Status.ERROR -> {
-                    mainActivityDataBinding.plPhotos.stopLoading()
+                    mainActivityDataBinding.rootMainActivity.stopLoading()
                 }
                 Status.SUCCESS -> {
-                    mainActivityDataBinding.plPhotos.stopLoading()
+                    mainActivityDataBinding.rootMainActivity.stopLoading()
                     mainActivityDataBinding.viewModel = mainViewModel
                     if (it.data.isNotNull() && it.data?.photos.isNotNull()) {
                         if (it.data?.photos?.isLastPage() == true) {
-                            mainActivityDataBinding.plPhotos.isLastPage = true
+                            mainActivityDataBinding.rootMainActivity.isLastPage = true
                         }
-
                     }
                 }
             }
@@ -101,7 +101,7 @@ class MainActivity : BaseBottomUpActivity(), PagingLayout.OnLoadingInterface {
     }
 
     override fun onStartLoad() {
-        mainViewModel.getRecent(mainActivityDataBinding.plPhotos.pageIndexIncrease())
+        mainViewModel.getRecent(mainActivityDataBinding.rootMainActivity.pageIndexIncrease())
     }
 
     override fun onStopLoad() {

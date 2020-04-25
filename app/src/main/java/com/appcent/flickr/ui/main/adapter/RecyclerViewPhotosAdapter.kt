@@ -30,14 +30,12 @@ class RecyclerViewPhotosAdapter(
         @SuppressLint("WrongConstant")
         @JvmStatic
         @BindingAdapter(
-            "bind:photosNestedScrollView",
             "bind:photos",
             "bind:photoClick",
             "bind:pagingListener"
         )
         fun bind(
             pl: PagingLayout?,
-            ns: NestedScrollView?,
             photos: ArrayList<Photo>?,
             clickListener: PhotoClickListener?,
             pagingListener: PagingLayout.OnLoadingInterface?
@@ -45,13 +43,9 @@ class RecyclerViewPhotosAdapter(
 
             pl.notNull { pagingLayout: PagingLayout ->
                 if (pagingLayout.rvPaging.adapter.isNull()) {
-                    ns.notNull { pagingLayout.setNestedScrollview(it) }
-                    pagingLayout.rvPaging.setHasFixedSize(true)
+                    pagingLayout.rvPaging.layoutManager =LinearLayoutManager(pagingLayout.context, LinearLayout.VERTICAL, false)
                     pagingLayout.onLoadingInterface = pagingListener
-                    pagingLayout.rvPaging.adapter =
-                        RecyclerViewPhotosAdapter(photos ?: ArrayList(), clickListener)
-                    pagingLayout.rvPaging.layoutManager =
-                        LinearLayoutManager(pagingLayout.context, LinearLayout.VERTICAL, false)
+                    pagingLayout.rvPaging.adapter = RecyclerViewPhotosAdapter(photos ?: ArrayList(), clickListener)
                     pagingLayout.rvPaging.setRecycledViewPool(RecyclerView.RecycledViewPool())
                 } else {
                     (pagingLayout.rvPaging.adapter as RecyclerViewPhotosAdapter).let {
@@ -80,14 +74,14 @@ class RecyclerViewPhotosAdapter(
     }
 
     fun addList(photos: ArrayList<Photo>?) {
-        photos?.forEach {
-            this.photos.add(it)
+        if (!photos.isNullOrEmpty()) {
+            if (this.photos.size == 0) {
+                setList(photos)
+            } else {
+                this.photos.addAll(photos)
+                notifyItemRangeInserted(this.photos.size - photos.size, this.photos.size)
+            }
         }
-        notifyDataSetChanged()
-    }
-
-    override fun getItemId(position: Int): Long {
-        return position.toLong()
     }
 
     fun clear() {
@@ -95,9 +89,10 @@ class RecyclerViewPhotosAdapter(
         notifyDataSetChanged()
     }
 
-    fun setList(photos: ArrayList<Photo>?) {
+    fun setList(photos: ArrayList<Photo>) {
         clear()
-        addList(photos)
+        this.photos.addAll(photos)
+        notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(
