@@ -6,8 +6,8 @@ initial_folder = os.path.abspath(".")
 package_separator = "."
 
 #arguments
-old_package = sys.argv[1]
-new_package = sys.argv[2]
+old_package = "com.appcent.flickr"
+new_package = "com.demo.flickr"
 proguard = None
 
 def charge_proguard():
